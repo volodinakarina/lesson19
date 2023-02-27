@@ -5,26 +5,26 @@ class GenreDAO:
     def __init__(self, session):
         self.session = session
 
-    def get_one(self, bid):
-        return self.session.query(Genre).get(bid)
+    def get_one(self, gid):
+        return self.session.query(Genre).get(gid)
 
     def get_all(self):
         return self.session.query(Genre).all()
 
-    def create(self, genre_d):
-        ent = Genre(**genre_d)
-        self.session.add(ent)
+    def create(self, genre_data):
+        entity = Genre(**genre_data)
+        self.session.add(entity)
         self.session.commit()
-        return ent
+        return entity
 
-    def delete(self, rid):
-        genre = self.get_one(rid)
-        self.session.delete(genre)
-        self.session.commit()
-
-    def update(self, genre_d):
-        genre = self.get_one(genre_d.get("id"))
-        genre.name = genre_d.get("name")
+    def update(self, genre_data):
+        genre = self.get_one(genre_data.get("id"))
+        genre.name = genre_data.get("name")
 
         self.session.add(genre)
+        self.session.commit()
+
+    def delete(self, gid):
+        genre = self.get_one(gid)
+        self.session.delete(genre)
         self.session.commit()

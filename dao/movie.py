@@ -5,50 +5,41 @@ class MovieDAO:
     def __init__(self, session):
         self.session = session
 
-    def get_one(self, bid):
-        return self.session.query(Movie).get(bid)
+    def get_one(self, mid):
+        return self.session.query(Movie).get(mid)
 
     def get_all(self):
-        # А еще можно сделать так, вместо всех методов get_by_*
-        # t = self.session.query(Movie)
-        # if "director_id" in filters:
-        #     t = t.filter(Movie.director_id == filters.get("director_id"))
-        # if "genre_id" in filters:
-        #     t = t.filter(Movie.genre_id == filters.get("genre_id"))
-        # if "year" in filters:
-        #     t = t.filter(Movie.year == filters.get("year"))
-        # return t.all()
         return self.session.query(Movie).all()
 
-    def get_by_director_id(self, val):
-        return self.session.query(Movie).filter(Movie.director_id == val).all()
+    def get_by_director_id(self, did):
+        return self.session.query(Movie).filter(Movie.director_id == did).all()
 
-    def get_by_genre_id(self, val):
-        return self.session.query(Movie).filter(Movie.genre_id == val).all()
+    def get_by_genre_id(self, gid):
+        return self.session.query(Movie).filter(Movie.genre_id == gid).all()
 
-    def get_by_year(self, val):
-        return self.session.query(Movie).filter(Movie.year == val).all()
+    def get_by_year(self, year):
+        return self.session.query(Movie).filter(Movie.year == year).all()
 
-    def create(self, movie_d):
-        ent = Movie(**movie_d)
-        self.session.add(ent)
+    def create(self, movie_data):
+        entity = Movie(**movie_data)
+        self.session.add(entity)
         self.session.commit()
-        return ent
+        return entity
 
-    def delete(self, rid):
-        movie = self.get_one(rid)
+    def delete(self, mid):
+        movie = self.get_one(mid)
         self.session.delete(movie)
         self.session.commit()
 
-    def update(self, movie_d):
-        movie = self.get_one(movie_d.get("id"))
-        movie.title = movie_d.get("title")
-        movie.description = movie_d.get("description")
-        movie.trailer = movie_d.get("trailer")
-        movie.year = movie_d.get("year")
-        movie.rating = movie_d.get("rating")
-        movie.genre_id = movie_d.get("genre_id")
-        movie.director_id = movie_d.get("director_id")
+    def update(self, movie_data):
+        movie = self.get_one(movie_data.get("id"))
+        movie.title = movie_data.get("title")
+        movie.description = movie_data.get("description")
+        movie.trailer = movie_data.get("trailer")
+        movie.year = movie_data.get("year")
+        movie.rating = movie_data.get("rating")
+        movie.genre_id = movie_data.get("genre_id")
+        movie.director_id = movie_data.get("director_id")
 
         self.session.add(movie)
         self.session.commit()
